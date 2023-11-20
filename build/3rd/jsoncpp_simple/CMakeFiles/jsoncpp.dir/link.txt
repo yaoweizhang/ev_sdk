@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -fext-numeric-literals  -O3 -DNDEBUG  -shared -Wl,-soname,libjsoncpp.so -o libjsoncpp.so CMakeFiles/jsoncpp.dir/src/json_reader.cpp.o CMakeFiles/jsoncpp.dir/src/json_value.cpp.o CMakeFiles/jsoncpp.dir/src/json_writer.cpp.o -Wl,-rpath,::::::::::::::::::::: 

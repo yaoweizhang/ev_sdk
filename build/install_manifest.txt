@@ -1,0 +1,5 @@
+/usr/local/ev_sdk/lib/libji.so
+/usr/local/ev_sdk/lib/liblicenseAuth.so
+/usr/local/ev_sdk/lib/fonts/NotoSansCJKsc-Regular.otf
+/usr/local/ev_sdk/lib/libjsoncpp.so
+/usr/local/ev_sdk/lib/libWKTParser.so
