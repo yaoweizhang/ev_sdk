@@ -1,0 +1,453 @@
+*** Aborted at 1700213288 (unix time) try "date -d @1700213288" if you are using GNU date ***
+PC: @     0x7f857ddc6d8b nvinfer1::LogStream::Buf::sync()
+*** SIGSEGV (@0x1) received by PID 833 (TID 0x7f85a5836000) from PID 1; stack trace: ***
+    @     0x7f85a4df6390 (unknown)
+    @     0x7f857ddc6d8b nvinfer1::LogStream::Buf::sync()
+    @     0x7f85a3588e3e std::ostream::flush()
+    @     0x7f857dd9920f nvinfer1::rt::SafeEngine::getBindingIndex()
+    @     0x7f85a5454362 SampleDetector::Init()
+    @     0x7f85a54485eb SampleAlgorithm::Init()
+    @     0x7f85a5457615 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f85a2ebb840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700214829 (unix time) try "date -d @1700214829" if you are using GNU date ***
+PC: @     0x7f2ee06c7d8b nvinfer1::LogStream::Buf::sync()
+*** SIGSEGV (@0x1) received by PID 2181 (TID 0x7f2f08137000) from PID 1; stack trace: ***
+    @     0x7f2f076f7390 (unknown)
+    @     0x7f2ee06c7d8b nvinfer1::LogStream::Buf::sync()
+    @     0x7f2f05e89e3e std::ostream::flush()
+    @     0x7f2ee069a20f nvinfer1::rt::SafeEngine::getBindingIndex()
+    @     0x7f2f07d55362 SampleDetector::Init()
+    @     0x7f2f07d495eb SampleAlgorithm::Init()
+    @     0x7f2f07d58615 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f2f057bc840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700215534 (unix time) try "date -d @1700215534" if you are using GNU date ***
+PC: @           0x4b0000 (unknown)
+*** SIGSEGV (@0x4b0000) received by PID 2800 (TID 0x7fb26531e000) from PID 4915200; stack trace: ***
+    @     0x7fb2648de390 (unknown)
+    @           0x4b0000 (unknown)
+*** Aborted at 1700215922 (unix time) try "date -d @1700215922" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 3041 (TID 0x7f9ce9b24000) from PID 16; stack trace: ***
+    @     0x7f9ce90e4390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700215962 (unix time) try "date -d @1700215962" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 3125 (TID 0x7f85501e2000) from PID 16; stack trace: ***
+    @     0x7f854f7a2390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700216168 (unix time) try "date -d @1700216168" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 3322 (TID 0x7fc5953f0000) from PID 16; stack trace: ***
+    @     0x7fc5949b0390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700225229 (unix time) try "date -d @1700225229" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 7298 (TID 0x7f3dfdd7c000) from PID 16; stack trace: ***
+    @     0x7f3dfd340390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700225350 (unix time) try "date -d @1700225350" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 7404 (TID 0x7f846f7ea000) from PID 16; stack trace: ***
+    @     0x7f846edaa390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700225829 (unix time) try "date -d @1700225829" if you are using GNU date ***
+PC: @       0x3000000010 (unknown)
+*** SIGSEGV (@0x3000000010) received by PID 7907 (TID 0x7fb7aa65c000) from PID 16; stack trace: ***
+    @     0x7fb7a9c1c390 (unknown)
+    @       0x3000000010 (unknown)
+*** Aborted at 1700232485 (unix time) try "date -d @1700232485" if you are using GNU date ***
+PC: @     0x7f1d5e107608 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 11472 (TID 0x7f1d5e4e7000) from PID 0; stack trace: ***
+    @     0x7f1d5daab390 (unknown)
+    @     0x7f1d5e107608 SampleDetector::loadOnnx()
+    @     0x7f1d5e108e31 SampleDetector::Init()
+    @     0x7f1d5e0fdceb SampleAlgorithm::Init()
+    @     0x7f1d5e10c1b5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f1d5bb70840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700263453 (unix time) try "date -d @1700263453" if you are using GNU date ***
+PC: @     0x7f094f963b88 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 842 (TID 0x7f094fd43000) from PID 0; stack trace: ***
+    @     0x7f094f307390 (unknown)
+    @     0x7f094f963b88 SampleDetector::loadOnnx()
+    @     0x7f094f9653b1 SampleDetector::Init()
+    @     0x7f094f959ceb SampleAlgorithm::Init()
+    @     0x7f094f968735 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f094d3cc840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700269226 (unix time) try "date -d @1700269226" if you are using GNU date ***
+PC: @     0x7f56da29cb88 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 3529 (TID 0x7f56da67c000) from PID 0; stack trace: ***
+    @     0x7f56d9c40390 (unknown)
+    @     0x7f56da29cb88 SampleDetector::loadOnnx()
+    @     0x7f56da29e3b1 SampleDetector::Init()
+    @     0x7f56da292ceb SampleAlgorithm::Init()
+    @     0x7f56da2a1735 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f56d7d05840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700269287 (unix time) try "date -d @1700269287" if you are using GNU date ***
+PC: @     0x7f1a498e0b88 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 3601 (TID 0x7f1a49cc4000) from PID 0; stack trace: ***
+    @     0x7f1a49284390 (unknown)
+    @     0x7f1a498e0b88 SampleDetector::loadOnnx()
+    @     0x7f1a498e23b1 SampleDetector::Init()
+    @     0x7f1a498d6ceb SampleAlgorithm::Init()
+    @     0x7f1a498e5735 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f1a47349840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700349091 (unix time) try "date -d @1700349091" if you are using GNU date ***
+PC: @           0x4b0000 (unknown)
+*** SIGSEGV (@0x4b0000) received by PID 358 (TID 0x7fa94091f000) from PID 4915200; stack trace: ***
+    @     0x7fa93fee3390 (unknown)
+    @           0x4b0000 (unknown)
+*** Aborted at 1700354302 (unix time) try "date -d @1700354302" if you are using GNU date ***
+PC: @           0x4b0000 (unknown)
+*** SIGSEGV (@0x4b0000) received by PID 2823 (TID 0x7fe7a1410000) from PID 4915200; stack trace: ***
+    @     0x7fe7a09d0390 (unknown)
+    @           0x4b0000 (unknown)
+*** Aborted at 1700385546 (unix time) try "date -d @1700385546" if you are using GNU date ***
+PC: @     0x7f38e34c9b58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 3974 (TID 0x7f38e38ad000) from PID 0; stack trace: ***
+    @     0x7f38e2e6d390 (unknown)
+    @     0x7f38e34c9b58 SampleDetector::loadOnnx()
+    @     0x7f38e34cb459 SampleDetector::Init()
+    @     0x7f38e34bfceb SampleAlgorithm::Init()
+    @     0x7f38e34ce7e5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f38e0f32840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700386302 (unix time) try "date -d @1700386302" if you are using GNU date ***
+PC: @     0x7fb086cb9b08 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 4425 (TID 0x7fb08709d000) from PID 0; stack trace: ***
+    @     0x7fb08665d390 (unknown)
+    @     0x7fb086cb9b08 SampleDetector::loadOnnx()
+    @     0x7fb086cbb409 SampleDetector::Init()
+    @     0x7fb086cafceb SampleAlgorithm::Init()
+    @     0x7fb086cbe795 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fb084722840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700392598 (unix time) try "date -d @1700392598" if you are using GNU date ***
+PC: @     0x7f17c2306b58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 7249 (TID 0x7f17c26e6000) from PID 0; stack trace: ***
+    @     0x7f17c1caa390 (unknown)
+    @     0x7f17c2306b58 SampleDetector::loadOnnx()
+    @     0x7f17c2308459 SampleDetector::Init()
+    @     0x7f17c22fcceb SampleAlgorithm::Init()
+    @     0x7f17c230b7e5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f17bfd6f840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700393375 (unix time) try "date -d @1700393375" if you are using GNU date ***
+PC: @     0x7f76a24a0b58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 7642 (TID 0x7f76a2880000) from PID 0; stack trace: ***
+    @     0x7f76a1e44390 (unknown)
+    @     0x7f76a24a0b58 SampleDetector::loadOnnx()
+    @     0x7f76a24a2459 SampleDetector::Init()
+    @     0x7f76a2496ceb SampleAlgorithm::Init()
+    @     0x7f76a24a57e5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f769ff09840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700393471 (unix time) try "date -d @1700393471" if you are using GNU date ***
+PC: @     0x7f18883dfb58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 7817 (TID 0x7f18887bf000) from PID 0; stack trace: ***
+    @     0x7f1887d83390 (unknown)
+    @     0x7f18883dfb58 SampleDetector::loadOnnx()
+    @     0x7f18883e1459 SampleDetector::Init()
+    @     0x7f18883d5ceb SampleAlgorithm::Init()
+    @     0x7f18883e47e5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f1885e48840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700395361 (unix time) try "date -d @1700395361" if you are using GNU date ***
+PC: @     0x7f32c4621b58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 8741 (TID 0x7f32c4a01000) from PID 0; stack trace: ***
+    @     0x7f32c3fc5390 (unknown)
+    @     0x7f32c4621b58 SampleDetector::loadOnnx()
+    @     0x7f32c4623459 SampleDetector::Init()
+    @     0x7f32c4617ceb SampleAlgorithm::Init()
+    @     0x7f32c46267f5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f32c208a840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700398784 (unix time) try "date -d @1700398784" if you are using GNU date ***
+PC: @     0x7fc9779eeb58 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 10277 (TID 0x7fc977dd2000) from PID 0; stack trace: ***
+    @     0x7fc977392390 (unknown)
+    @     0x7fc9779eeb58 SampleDetector::loadOnnx()
+    @     0x7fc9779f0459 SampleDetector::Init()
+    @     0x7fc9779e4ceb SampleAlgorithm::Init()
+    @     0x7fc9779f37f5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fc975457840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700403788 (unix time) try "date -d @1700403788" if you are using GNU date ***
+PC: @     0x7ff68edabd38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 12668 (TID 0x7ff68f18b000) from PID 0; stack trace: ***
+    @     0x7ff68e74f390 (unknown)
+    @     0x7ff68edabd38 SampleDetector::loadOnnx()
+    @     0x7ff68edad639 SampleDetector::Init()
+    @     0x7ff68eda1ceb SampleAlgorithm::Init()
+    @     0x7ff68edb09d5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7ff68c814840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700404169 (unix time) try "date -d @1700404169" if you are using GNU date ***
+PC: @     0x7f2d390c7d38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 13019 (TID 0x7f2d394ab000) from PID 0; stack trace: ***
+    @     0x7f2d38a6b390 (unknown)
+    @     0x7f2d390c7d38 SampleDetector::loadOnnx()
+    @     0x7f2d390c9639 SampleDetector::Init()
+    @     0x7f2d390bdceb SampleAlgorithm::Init()
+    @     0x7f2d390cc9d5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f2d36b30840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700408686 (unix time) try "date -d @1700408686" if you are using GNU date ***
+PC: @     0x7feee697dd38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 1254 (TID 0x7feee6d61000) from PID 0; stack trace: ***
+    @     0x7feee6321390 (unknown)
+    @     0x7feee697dd38 SampleDetector::loadOnnx()
+    @     0x7feee697f639 SampleDetector::Init()
+    @     0x7feee6973ceb SampleAlgorithm::Init()
+    @     0x7feee69829d5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7feee43e6840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700409263 (unix time) try "date -d @1700409263" if you are using GNU date ***
+PC: @     0x7f9041839d38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 1605 (TID 0x7f9041c19000) from PID 0; stack trace: ***
+    @     0x7f90411dd390 (unknown)
+    @     0x7f9041839d38 SampleDetector::loadOnnx()
+    @     0x7f904183b639 SampleDetector::Init()
+    @     0x7f904182fceb SampleAlgorithm::Init()
+    @     0x7f904183e9d5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f903f2a2840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700409865 (unix time) try "date -d @1700409865" if you are using GNU date ***
+PC: @     0x7f4c665ffd38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 1951 (TID 0x7f4c669e3000) from PID 0; stack trace: ***
+    @     0x7f4c65fa3390 (unknown)
+    @     0x7f4c665ffd38 SampleDetector::loadOnnx()
+    @     0x7f4c66601639 SampleDetector::Init()
+    @     0x7f4c665f5ceb SampleAlgorithm::Init()
+    @     0x7f4c666049d5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f4c64068840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700448442 (unix time) try "date -d @1700448442" if you are using GNU date ***
+PC: @     0x7fe905437d38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 3208 (TID 0x7fe905818000) from PID 0; stack trace: ***
+    @     0x7fe904ddb390 (unknown)
+    @     0x7fe905437d38 SampleDetector::loadOnnx()
+    @     0x7fe905439639 SampleDetector::Init()
+    @     0x7fe90542dceb SampleAlgorithm::Init()
+    @     0x7fe90543cb35 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fe902ea0840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700452473 (unix time) try "date -d @1700452473" if you are using GNU date ***
+PC: @     0x7f3fb6ff4438 gsignal
+*** SIGABRT (@0x137a) received by PID 4986 (TID 0x7f3fb9957000) from PID 4986; stack trace: ***
+    @     0x7f3fb8f1a390 (unknown)
+    @     0x7f3fb6ff4438 gsignal
+    @     0x7f3fb6ff603a abort
+    @     0x7f3fb762e84d __gnu_cxx::__verbose_terminate_handler()
+    @     0x7f3fb762c6b6 (unknown)
+    @     0x7f3fb762c701 std::terminate()
+    @     0x7f3fb762c919 __cxa_throw
+    @     0x7f3fb7c03f3d cv::error()
+    @     0x7f3fb7c051d2 cv::error()
+    @     0x7f3fb7b3894b cv::_OutputArray::create()
+    @     0x7f3fb7a0c72d cv::Mat::copyTo()
+    @     0x7f3fb9579402 SampleDetector::ProcessImage()
+    @     0x7f3fb956d504 SampleAlgorithm::Process()
+    @     0x7f3fb957bf7c ji_calc_image
+    @           0x413376 Algo::ProcessOneFrame()
+    @           0x412530 Algo::ProcessImage()
+    @           0x40b013 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f3fb6fdf840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700452700 (unix time) try "date -d @1700452700" if you are using GNU date ***
+PC: @     0x7fae6e858438 gsignal
+*** SIGABRT (@0x144f) received by PID 5199 (TID 0x7fae711bf000) from PID 5199; stack trace: ***
+    @     0x7fae7077e390 (unknown)
+    @     0x7fae6e858438 gsignal
+    @     0x7fae6e85a03a abort
+    @     0x7fae6ee9284d __gnu_cxx::__verbose_terminate_handler()
+    @     0x7fae6ee906b6 (unknown)
+    @     0x7fae6ee90701 std::terminate()
+    @     0x7fae6ee90919 __cxa_throw
+    @     0x7fae6f467f3d cv::error()
+    @     0x7fae6f4691d2 cv::error()
+    @     0x7fae6f39c94b cv::_OutputArray::create()
+    @     0x7fae6f27072d cv::Mat::copyTo()
+    @     0x7fae70ddd3f0 SampleDetector::ProcessImage()
+    @     0x7fae70dd1504 SampleAlgorithm::Process()
+    @     0x7fae70ddfffc ji_calc_image
+    @           0x413376 Algo::ProcessOneFrame()
+    @           0x412530 Algo::ProcessImage()
+    @           0x40b013 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fae6e843840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700452796 (unix time) try "date -d @1700452796" if you are using GNU date ***
+PC: @     0x7fafb269b438 gsignal
+*** SIGABRT (@0x14b8) received by PID 5304 (TID 0x7fafb4ffe000) from PID 5304; stack trace: ***
+    @     0x7fafb45c1390 (unknown)
+    @     0x7fafb269b438 gsignal
+    @     0x7fafb269d03a abort
+    @     0x7fafb2cd584d __gnu_cxx::__verbose_terminate_handler()
+    @     0x7fafb2cd36b6 (unknown)
+    @     0x7fafb2cd3701 std::terminate()
+    @     0x7fafb2cd3919 __cxa_throw
+    @     0x7fafb32aaf3d cv::error()
+    @     0x7fafb32ac1d2 cv::error()
+    @     0x7fafb31df94b cv::_OutputArray::create()
+    @     0x7fafb30b372d cv::Mat::copyTo()
+    @     0x7fafb4c20486 SampleDetector::ProcessImage()
+    @     0x7fafb4c14504 SampleAlgorithm::Process()
+    @     0x7fafb4c2309c ji_calc_image
+    @           0x413376 Algo::ProcessOneFrame()
+    @           0x412530 Algo::ProcessImage()
+    @           0x40b013 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fafb2686840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700452826 (unix time) try "date -d @1700452826" if you are using GNU date ***
+PC: @     0x7fcc3267b438 gsignal
+*** SIGABRT (@0x1513) received by PID 5395 (TID 0x7fcc34fde000) from PID 5395; stack trace: ***
+    @     0x7fcc345a1390 (unknown)
+    @     0x7fcc3267b438 gsignal
+    @     0x7fcc3267d03a abort
+    @     0x7fcc32cb584d __gnu_cxx::__verbose_terminate_handler()
+    @     0x7fcc32cb36b6 (unknown)
+    @     0x7fcc32cb3701 std::terminate()
+    @     0x7fcc32cb3919 __cxa_throw
+    @     0x7fcc3328af3d cv::error()
+    @     0x7fcc3328c1d2 cv::error()
+    @     0x7fcc331bf94b cv::_OutputArray::create()
+    @     0x7fcc3309372d cv::Mat::copyTo()
+    @     0x7fcc34c00529 SampleDetector::ProcessImage()
+    @     0x7fcc34bf4504 SampleAlgorithm::Process()
+    @     0x7fcc34c0309c ji_calc_image
+    @           0x413376 Algo::ProcessOneFrame()
+    @           0x412530 Algo::ProcessImage()
+    @           0x40b013 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fcc32666840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700455850 (unix time) try "date -d @1700455850" if you are using GNU date ***
+PC: @     0x7f0be41f0d38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 7279 (TID 0x7f0be45d5000) from PID 0; stack trace: ***
+    @     0x7f0be3b94390 (unknown)
+    @     0x7f0be41f0d38 SampleDetector::loadOnnx()
+    @     0x7f0be41f26f9 SampleDetector::Init()
+    @     0x7f0be41e6ceb SampleAlgorithm::Init()
+    @     0x7f0be41f5be5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7f0be1c59840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700455872 (unix time) try "date -d @1700455872" if you are using GNU date ***
+PC: @     0x7feda59d9d38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 7363 (TID 0x7feda5dbe000) from PID 0; stack trace: ***
+    @     0x7feda537d390 (unknown)
+    @     0x7feda59d9d38 SampleDetector::loadOnnx()
+    @     0x7feda59db6f9 SampleDetector::Init()
+    @     0x7feda59cfceb SampleAlgorithm::Init()
+    @     0x7feda59debe5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7feda3442840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)
+*** Aborted at 1700470274 (unix time) try "date -d @1700470274" if you are using GNU date ***
+PC: @     0x7fb8788efd38 SampleDetector::loadOnnx()
+*** SIGSEGV (@0x0) received by PID 13840 (TID 0x7fb878cd4000) from PID 0; stack trace: ***
+    @     0x7fb878293390 (unknown)
+    @     0x7fb8788efd38 SampleDetector::loadOnnx()
+    @     0x7fb8788f16f9 SampleDetector::Init()
+    @     0x7fb8788e5ceb SampleAlgorithm::Init()
+    @     0x7fb8788f4be5 ji_create_predictor
+    @           0x41157c Algo::Init()
+    @           0x40ad22 test_for_ji_calc_image()
+    @           0x40c9d6 main
+    @     0x7fb876358840 __libc_start_main
+    @           0x409269 _start
+    @                0x0 (unknown)

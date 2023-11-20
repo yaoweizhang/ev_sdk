@@ -172,14 +172,18 @@ __pycache__/
 core.*#
 .ipynb_checkpoints/
 
-yolov5s.onnx
-yolov5s.trt
 best.onnx
 best.trt
-core.513
-pack-6d8625e7148c6714c27df251c4a2bbdd6a935170.pack
-core.2141
-core.2785
-core.3128
-core.4023
-core.7642
+9bb896a834dca5b643a646e0079cdee070ab82
+bestv5s.onnx
+bestv8l.onnx
+d5ecbc2e3d628ab48f7a606031e3b056957edb
+bestv5sINT32.onnx
+bestv5INT8.onnx
+pack-1997a37600e0baff888f1cc3f338289b737cf59d.pack
+pack-6ed36182703b3ce5c14b9a6c58ba3d84c4f61610.pack
+pack-74d3a1b31e9223f20218810978b777b24be76842.pack
+pack-f716735bf24727fd287a5317841aad22ed1ab4bb.pack
+bestv5.onnx
+best1.onnx
+best1.trt
