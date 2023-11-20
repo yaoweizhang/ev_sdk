@@ -35,7 +35,7 @@
 #include "ji.h"
 
 //算法版本号，开发者自定义，且要求每次版本更新后，按照一致的形式修改算法版本号
-static const std::string algo_version = "1.0.1";
+static const std::string algo_version = "1.0.2";
 
 //ev_sdk的版本号，当前是4.1.0，不用开发者自定义，除非明确了采用新版的ev_sdk
 static const std::string sdk_version = "4.0.0";

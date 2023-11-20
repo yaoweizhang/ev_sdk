@@ -63,7 +63,7 @@ class SampleDetector
     private:
         void loadOnnx(const std::string strName);
         void loadTrt(const std::string strName);        
-        void decode_outputs(float* prob, float thresh, std::vector<BoxInfo>& objects, float scale, const int img_w, const int img_h);
+        void decode_outputs(float* prob, float thresh, std::vector<BoxInfo>& objects, float scale, const int img_w, const int img_h, int dw, int dh);
         
     
     private:    

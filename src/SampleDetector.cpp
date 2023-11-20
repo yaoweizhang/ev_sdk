@@ -81,10 +81,12 @@ bool SampleDetector::Init(const std::string& strModelName, float thresh)
     strTrtName = strTrtName.substr(0, sep_pos) + ".trt";
     if(ifFileExists(strTrtName.c_str()))
     {        
+        SDKLOG(INFO) << "Load model path: " <<strTrtName;
         loadTrt(strTrtName);
     }
     else
     {
+        SDKLOG(INFO) << "Load model path: " <<strModelName;
         loadOnnx(strModelName);
     }    
     // 分配输入输出的空间,DEVICE侧和HOST侧
@@ -147,8 +149,14 @@ bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetO
 {
     mThresh = thresh;
     DetObjs.clear();  
-    float r = std::min(m_InputSize.width / static_cast<float>(img.rows), m_InputSize.width / static_cast<float>(img.cols));
-    cv::Size new_size = cv::Size{img.cols * r, img.rows * r};    
+    //float r = std::min(m_InputSize.width / static_cast<float>(img.rows), m_InputSize.width / static_cast<float>(img.cols));
+    float r = std::min(m_InputSize.height / static_cast<float>(img.rows), m_InputSize.width / static_cast<float>(img.cols));
+    cv::Size new_size = cv::Size{int(img.cols * r), int(img.rows * r)};    
+    int dw = int((m_InputSize.width - new_size.width)/2.0);
+    int dh = int((m_InputSize.height - new_size.height)/2.0);
+    int stride = 32;
+    dw -= (dw % stride);
+    dh -= (dh % stride);
     cv::Mat tmp_resized;    
     
     cv::resize(img, tmp_resized, new_size);
@@ -158,7 +166,7 @@ bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetO
         m_Resized = cv::Mat( cv::Size(m_InputSize.width, m_InputSize.height), CV_8UC3, cv::Scalar(114, 114, 114));    
     }
     
-    tmp_resized.copyTo(m_Resized(cv::Rect{0, 0, tmp_resized.cols, tmp_resized.rows}));
+    tmp_resized.copyTo(m_Resized(cv::Rect{0+dw, 0+dh, tmp_resized.cols, tmp_resized.rows}));
     
     m_Resized.convertTo(m_Normalized, CV_32FC3, 1/255.);
     cv::split(m_Normalized, m_InputWrappers); 
@@ -168,7 +176,7 @@ bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetO
     ret = cudaMemcpyAsync(m_ArrayHostMemory[m_iOutputIndex], m_ArrayDevMemory[m_iOutputIndex], m_ArraySize[m_iOutputIndex], cudaMemcpyDeviceToHost, m_CudaStream);
     ret = cudaStreamSynchronize(m_CudaStream);    
     float scale = std::min(m_InputSize.width / (img.cols * 1.0), m_InputSize.height / (img.rows * 1.0));
-    decode_outputs((float*)m_ArrayHostMemory[m_iOutputIndex], mThresh, DetObjs, scale, img.cols, img.rows);
+    decode_outputs((float*)m_ArrayHostMemory[m_iOutputIndex], mThresh, DetObjs, scale, img.cols, img.rows, dw, dh);
     runNms(DetObjs, 0.45);
 }
 
@@ -184,8 +192,11 @@ void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh)
         }
         for(int j = i + 1; j < objects.size(); ++j)
         {
-            cv::Rect rect1 = cv::Rect{objects[i].x1, objects[i].y1, objects[i].x2 - objects[i].x1, objects[i].y2 - objects[i].y1};
-            cv::Rect rect2 = cv::Rect{objects[j].x1, objects[j].y1, objects[j].x2 - objects[i].x1, objects[j].y2 - objects[j].y1};
+            if(objects[i].label != objects[j].label) {
+                continue;
+            }
+            cv::Rect rect1 = cv::Rect{int(objects[i].x1), int(objects[i].y1), int(objects[i].x2 - objects[i].x1), int(objects[i].y2 - objects[i].y1)};
+            cv::Rect rect2 = cv::Rect{int(objects[j].x1), int(objects[j].y1), int(objects[j].x2 - objects[i].x1), int(objects[j].y2 - objects[j].y1)};
             if(IOU(rect1, rect2) > thresh)   
             {
                 objects[i].score = 0.f;
@@ -206,7 +217,7 @@ void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh)
     }
 }
 
-void SampleDetector::decode_outputs(float* prob, float thresh, std::vector<BoxInfo>& objects, float scale, const int img_w, const int img_h) 
+void SampleDetector::decode_outputs(float* prob, float thresh, std::vector<BoxInfo>& objects, float scale, const int img_w, const int img_h, int dw, int dh) 
 {    
     std::vector<BoxInfo> proposals;
     for(int i = 0; i < m_iBoxNums; ++i)
@@ -215,10 +226,13 @@ void SampleDetector::decode_outputs(float* prob, float thresh, std::vector<BoxIn
         if(prob[index + 4] > mThresh)
         {            
             
-            float x = prob[index];
-            float y = prob[index + 1];
+            float x = prob[index] - dw;
+            float y = prob[index + 1] - dh;
             float w = prob[index + 2];
             float h = prob[index + 3];            
+            if (x <=0 || y <=0) {
+                    continue;
+            }
             x/=scale;
             y/=scale;
             w/=scale;
@@ -227,11 +241,11 @@ void SampleDetector::decode_outputs(float* prob, float thresh, std::vector<BoxIn
             if((*max_cls_pos) * prob[index+4] > mThresh)
             {
                 
-                cv::Rect box{x- w / 2, y - h / 2, w, h};
+                cv::Rect box{int(x- w / 2), int(y - h / 2), int(w), int(h)};
                 box = box & cv::Rect(0, 0, img_w-1, img_h-1);
                 if( box.area() > 0)
                 {
-                    BoxInfo box_info = { box.x, box.y, box.x + box.width, box.y + box.height, (*max_cls_pos) * prob[index+4], max_cls_pos - (prob + index + 5)};
+                    BoxInfo box_info = { float(box.x), float(box.y), float(box.x + box.width), float(box.y + box.height), (*max_cls_pos) * prob[index+4], max_cls_pos - (prob + index + 5)};
                     objects.push_back(box_info);
                 }
             }

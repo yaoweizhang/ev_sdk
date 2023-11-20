@@ -9,6 +9,7 @@
 #include "value.h"
 #include "ji_utils.h"
 #include "SampleAlgorithm.hpp"
+#include "SampleDetector.h"
 
 #define JSON_ALERT_FLAG_KEY ("is_alert")
 #define JSON_ALERT_FLAG_TRUE true
@@ -43,6 +44,8 @@ STATUS SampleAlgorithm::Init()
     }
     mDetector = std::make_shared<SampleDetector>();
     mDetector->Init("/usr/local/ev_sdk/model/train/exp/weights/best.onnx", mConfig.algoConfig.thresh);
+
+    //mDetector->Init("/usr/local/ev_sdk/models/best.onnx", mConfig.algoConfig.thresh);
     return STATUS_SUCCESS;
 }
 
@@ -110,12 +113,16 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
 
     // 针对整张图进行推理,获取所有的检测目标,并过滤出在ROI内的目标
     std::vector<BoxInfo> detectedObjects;    
+    std::vector<BoxInfo> personTargets;    
     std::vector<BoxInfo> validTargets;
+    std::vector<BoxInfo> helmetTargets;
+
     // 算法处理
     cv::Mat img = inFrame.clone();
     mDetector->ProcessImage(img, detectedObjects, mConfig.algoConfig.thresh);    
     
     
+    /*
     for (auto &obj : detectedObjects)
     {
         for (auto &roiPolygon : mConfig.currentROIOrigPolygons)
@@ -131,23 +138,70 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
             }           
         }
     }
-    SDKLOG_FIRST_N(INFO, 5) << "detected targets : " << detectedObjects.size() << " valid targets :  " << validTargets.size();
+    */
+    for (auto &obj : detectedObjects)
+    {
+        if (obj.label == 18 || obj.label == 19) {
+            personTargets.emplace_back(obj);
+            for (auto &obj_t: detectedObjects) {
+                if (obj_t.label == 22 || obj_t.label == 23 ||  obj_t.label == 24 || obj_t.label == 25) {
+                    //cv::Rect rect1 = cv::Rect{obj.x1, obj.y1, obj.x2 - obj.x1, obj.y2 - obj.y1};
+                    //cv::Rect rect2 = cv::Rect{obj_t.x1, obj_t.y1, obj_t.x2 - obj_t.x1, obj_t.y2 - obj_t.y1};
+                    //if(IOU(rect1, rect2) > 0.5) {
+                    int mid_x = (obj_t.x1 + obj_t.x2) / 2;
+                    int mid_y = (obj_t.y1 + obj_t.y2) / 2;
+                    if (mid_x >= obj.x1 && mid_x <= obj.x2 && mid_y >= obj.y1 && mid_y <= obj.y2){  
+                    //if(obj.x1 <= obj_t.x1 && obj.y1 <= obj_t.y1 && obj.x2 >= obj_t.x2 && obj.y2 >= obj_t.y2){ 
+                        if(obj_t.label == 22 || obj_t.label == 24) {
+                            validTargets.emplace_back(obj_t);
+                        }else {
+                            helmetTargets.emplace_back(obj_t);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    SDKLOG_FIRST_N(INFO, 5) << "detected targets : " << detectedObjects.size() << " valid targets :  " << validTargets.size() << "helmet targets: " << helmetTargets.size();
     // 此处示例业务逻辑
     bool isNeedAlert = false; // 是否需要报警
     // 创建输出图
     inFrame.copyTo(mOutputFrame);
     // 画ROI区域
+    /*
     if (mConfig.drawROIArea && !mConfig.currentROIOrigPolygons.empty())
     {
         drawPolygon(mOutputFrame, mConfig.currentROIOrigPolygons, cv::Scalar(mConfig.roiColor[0], mConfig.roiColor[1], mConfig.roiColor[2]),
                     mConfig.roiColor[3], cv::LINE_AA, mConfig.roiLineThickness, mConfig.roiFill);
     }
+    */
     // 判断是否要要报警
     if (validTargets.size() > 0)
     {        
         isNeedAlert = true;
     }
     //并将检测到的在ROI内部的目标画到图上
+    for (auto &object : personTargets)
+    //for (auto &object :detectedObjects)
+    {
+        if (mConfig.drawResult)
+        {
+            std::stringstream ss;
+            ss << (object.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "": mConfig.targetRectTextMap[mConfig.language][object.label]);
+            if (mConfig.drawConfidence)
+            {
+                ss.precision(0);
+                ss << std::fixed << (object.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "" : ": ") << object.score * 100 << "%";
+            }
+            cv::Rect rect = cv::Rect{int(object.x1), int(object.y1), int(object.x2 - object.x1), int(object.y2 - object.y1)};
+            drawRectAndText(mOutputFrame, rect, ss.str(), mConfig.targetRectLineThickness, cv::LINE_AA,
+                            cv::Scalar(mConfig.targetRectColor[0], mConfig.targetRectColor[1], mConfig.targetRectColor[2]), mConfig.targetRectColor[3], mConfig.targetTextHeight,
+                            cv::Scalar(mConfig.textFgColor[0], mConfig.textFgColor[1], mConfig.textFgColor[2]),
+                            cv::Scalar(mConfig.textBgColor[0], mConfig.textBgColor[1], mConfig.textBgColor[2]));
+        }
+    }
+
     for (auto &object : validTargets)
     {
         if (mConfig.drawResult)
@@ -159,7 +213,26 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
                 ss.precision(0);
                 ss << std::fixed << (object.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "" : ": ") << object.score * 100 << "%";
             }
-            cv::Rect rect = cv::Rect{object.x1, object.y1, object.x2 - object.x1, object.y2 - object.y1};
+            cv::Rect rect = cv::Rect{int(object.x1), int(object.y1), int(object.x2 - object.x1), int(object.y2 - object.y1)};
+            drawRectAndText(mOutputFrame, rect, ss.str(), mConfig.targetRectLineThickness, cv::LINE_AA,
+                            cv::Scalar(mConfig.targetRectColor[0], mConfig.targetRectColor[1], mConfig.targetRectColor[2]), mConfig.targetRectColor[3], mConfig.targetTextHeight,
+                            cv::Scalar(mConfig.textFgColor[0], mConfig.textFgColor[1], mConfig.textFgColor[2]),
+                            cv::Scalar(mConfig.textBgColor[0], mConfig.textBgColor[1], mConfig.textBgColor[2]));
+        }
+    }
+
+    for (auto &object : helmetTargets)
+    {
+        if (mConfig.drawResult)
+        {
+            std::stringstream ss;
+            ss << (object.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "": mConfig.targetRectTextMap[mConfig.language][object.label]);
+            if (mConfig.drawConfidence)
+            {
+                ss.precision(0);
+                ss << std::fixed << (object.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "" : ": ") << object.score * 100 << "%";
+            }
+            cv::Rect rect = cv::Rect{int(object.x1), int(object.y1), int(object.x2 - object.x1), int(object.y2 - object.y1)};
             drawRectAndText(mOutputFrame, rect, ss.str(), mConfig.targetRectLineThickness, cv::LINE_AA,
                             cv::Scalar(mConfig.targetRectColor[0], mConfig.targetRectColor[1], mConfig.targetRectColor[2]), mConfig.targetRectColor[3], mConfig.targetTextHeight,
                             cv::Scalar(mConfig.textFgColor[0], mConfig.textFgColor[1], mConfig.textFgColor[2]),
@@ -202,7 +275,29 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
     
     //create model data
     jDetectValue["objects"].resize(0);   
-    for (auto &obj : detectedObjects)
+    for (auto &obj : validTargets)
+    {
+        Json::Value jTmpValue;
+        jTmpValue["x"] = int(obj.x1);
+        jTmpValue["y"] = int(obj.y1);
+        jTmpValue["width"] = int(obj.x2 - obj.x1);
+        jTmpValue["height"] = int(obj.y2 - obj.y1);
+        jTmpValue["name"] = (obj.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "obj": mConfig.targetRectTextMap[mConfig.language][obj.label]);
+        jTmpValue["confidence"] = obj.score;
+        jDetectValue["objects"].append(jTmpValue);
+    }
+    for (auto &obj : personTargets)
+    {
+        Json::Value jTmpValue;
+        jTmpValue["x"] = int(obj.x1);
+        jTmpValue["y"] = int(obj.y1);
+        jTmpValue["width"] = int(obj.x2 - obj.x1);
+        jTmpValue["height"] = int(obj.y2 - obj.y1);
+        jTmpValue["name"] = (obj.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "obj": mConfig.targetRectTextMap[mConfig.language][obj.label]);
+        jTmpValue["confidence"] = obj.score;
+        jDetectValue["objects"].append(jTmpValue);
+    }
+    for (auto &obj :helmetTargets)
     {
         Json::Value jTmpValue;
         jTmpValue["x"] = int(obj.x1);
