@@ -43,9 +43,9 @@ STATUS SampleAlgorithm::Init()
         confIfs.close();
     }
     mDetector = std::make_shared<SampleDetector>();
-    mDetector->Init("/usr/local/ev_sdk/model/train/exp/weights/best.onnx", mConfig.algoConfig.thresh);
+    mDetector->Init("/usr/local/ev_sdk/model/train/exp2/weights/best.onnx", mConfig.algoConfig.thresh);
 
-    //mDetector->Init("/usr/local/ev_sdk/models/best.onnx", mConfig.algoConfig.thresh);
+    //mDetector->Init("/usr/local/ev_sdk/model/train/best.onnx", mConfig.algoConfig.thresh);
     return STATUS_SUCCESS;
 }
 
@@ -138,7 +138,6 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
             }           
         }
     }
-    */
     for (auto &obj : detectedObjects)
     {
         if (obj.label == 18 || obj.label == 19) {
@@ -158,6 +157,47 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
                             helmetTargets.emplace_back(obj_t);
                         }
                     }
+                }
+            }
+        }
+    }
+    */
+    for (auto &obj : detectedObjects)
+    {
+        if (obj.label == 18 || obj.label == 19) {
+            cv::Rect rect1 = cv::Rect{int(obj.x1), int(obj.y1), int(obj.x2 - obj.x1), int(obj.y2 - obj.y1)};
+            cv::Mat img_in = img(rect1).clone();
+            std::vector<BoxInfo> detectedObjects_in;    
+            mDetector->ProcessImage(img_in, detectedObjects_in, 0.35, true);    
+            float max_score = -1.0;
+            int label = -1;
+            for (auto &obj_in: detectedObjects_in) {
+                if (obj_in.label == 18 || obj_in.label == 19) {
+                    if (obj_in.score > max_score) {
+                        max_score = obj_in.score;
+                        label = obj_in.label;
+                    }
+                }
+            }
+            if( max_score < 0) {
+                continue;
+            }
+            obj.label = label;
+            personTargets.emplace_back(obj);
+            
+            for (auto &obj_in_t: detectedObjects_in) {
+                if(obj_in_t.label == 22 || obj_in_t.label == 24) {
+                    obj_in_t.x1 += obj.x1;
+                    obj_in_t.y1 += obj.y1;
+                    obj_in_t.x2 += obj.x1;
+                    obj_in_t.y2 += obj.y1;
+                    validTargets.emplace_back(obj_in_t);
+                }else if(obj_in_t.label == 23 || obj_in_t.label == 25) {
+                    obj_in_t.x1 += obj.x1;
+                    obj_in_t.y1 += obj.y1;
+                    obj_in_t.x2 += obj.x1;
+                    obj_in_t.y2 += obj.y1;
+                    helmetTargets.emplace_back(obj_in_t);
                 }
             }
         }
@@ -182,6 +222,7 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
         isNeedAlert = true;
     }
     //并将检测到的在ROI内部的目标画到图上
+    /*
     for (auto &object : personTargets)
     //for (auto &object :detectedObjects)
     {
@@ -201,6 +242,7 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
                             cv::Scalar(mConfig.textBgColor[0], mConfig.textBgColor[1], mConfig.textBgColor[2]));
         }
     }
+    */
 
     for (auto &object : validTargets)
     {
@@ -221,6 +263,7 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
         }
     }
 
+    /*
     for (auto &object : helmetTargets)
     {
         if (mConfig.drawResult)
@@ -239,6 +282,7 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
                             cv::Scalar(mConfig.textBgColor[0], mConfig.textBgColor[1], mConfig.textBgColor[2]));
         }
     }
+   */
 
     if (isNeedAlert && mConfig.drawWarningText)
     {
@@ -261,6 +305,17 @@ STATUS SampleAlgorithm::Process(const cv::Mat &inFrame, const char *args, JiEven
     jAlgoValue["target_info"].resize(0);
     jAlgoValue["target_count"] = int(validTargets.size());
     for (auto &obj : validTargets)
+    {        
+        Json::Value jTmpValue;
+        jTmpValue["x"] = int(obj.x1);
+        jTmpValue["y"] = int(obj.y1);
+        jTmpValue["width"] = int(obj.x2 - obj.x1);
+        jTmpValue["height"] = int(obj.y2 - obj.y1);
+        jTmpValue["name"] = (obj.label > mConfig.targetRectTextMap[mConfig.language].size() - 1 ? "obj": mConfig.targetRectTextMap[mConfig.language][obj.label]);
+        jTmpValue["confidence"] = obj.score;
+        jAlgoValue["target_info"].append(jTmpValue);
+    }
+    for (auto &obj : personTargets)
     {        
         Json::Value jTmpValue;
         jTmpValue["x"] = int(obj.x1);

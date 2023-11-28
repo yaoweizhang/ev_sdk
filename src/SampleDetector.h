@@ -58,8 +58,8 @@ class SampleDetector
         ~SampleDetector();
         bool Init(const std::string& strModelName, float thresh);
         bool UnInit();        
-        bool ProcessImage(const cv::Mat& img, std::vector< BoxInfo >& DetObj, float thresh = 0.15);                   
-        static void runNms(std::vector<BoxInfo>& objects, float thresh);
+        bool ProcessImage(const cv::Mat& img, std::vector< BoxInfo >& DetObj, float thresh = 0.15, bool in = false);                   
+        static void runNms(std::vector<BoxInfo>& objects, float thresh, bool in=false);
     private:
         void loadOnnx(const std::string strName);
         void loadTrt(const std::string strName);        

@@ -29,12 +29,15 @@ void SampleDetector::loadOnnx(const std::string strModelName)
     //根据tensorrt pipeline 构建网络
     IBuilder* builder = createInferBuilder(gLogger);
     builder->setMaxBatchSize(1);
+    //builder->setFp16Mode(true);
     const auto explicitBatch = 1U << static_cast<uint32_t>(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);  
     INetworkDefinition* network = builder->createNetworkV2(explicitBatch);
     nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger);
     parser->parseFromFile(strModelName.c_str(), static_cast<int>(ILogger::Severity::kWARNING));
     IBuilderConfig* config = builder->createBuilderConfig();
     config->setMaxWorkspaceSize(1ULL << 30);    
+    config->setFlag(BuilderFlag::kFP16);
+    //config->setFlag(BuilderFlag::kINT8);
     m_CudaEngine = builder->buildEngineWithConfig(*network, *config);    
 
     std::string strTrtName = strModelName;
@@ -145,13 +148,13 @@ SampleDetector::~SampleDetector()
     UnInit();   
 }
 
-bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetObjs, float thresh)
+bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetObjs, float thresh, bool in)
 {
     mThresh = thresh;
     DetObjs.clear();  
     //float r = std::min(m_InputSize.width / static_cast<float>(img.rows), m_InputSize.width / static_cast<float>(img.cols));
     float r = std::min(m_InputSize.height / static_cast<float>(img.rows), m_InputSize.width / static_cast<float>(img.cols));
-    cv::Size new_size = cv::Size{int(img.cols * r), int(img.rows * r)};    
+    cv::Size new_size = cv::Size{std::min(int(img.cols * r),m_InputSize.width), std::min(int(img.rows * r), m_InputSize.height)};    
     int dw = int((m_InputSize.width - new_size.width)/2.0);
     int dh = int((m_InputSize.height - new_size.height)/2.0);
     int stride = 32;
@@ -169,6 +172,7 @@ bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetO
     tmp_resized.copyTo(m_Resized(cv::Rect{0+dw, 0+dh, tmp_resized.cols, tmp_resized.rows}));
     
     m_Resized.convertTo(m_Normalized, CV_32FC3, 1/255.);
+    m_Resized = cv::Mat();
     cv::split(m_Normalized, m_InputWrappers); 
 
     auto ret = cudaMemcpyAsync(m_ArrayDevMemory[m_iInputIndex], m_ArrayHostMemory[m_iInputIndex], m_ArraySize[m_iInputIndex], cudaMemcpyHostToDevice, m_CudaStream);
@@ -177,10 +181,13 @@ bool SampleDetector::ProcessImage(const cv::Mat& img, std::vector<BoxInfo>& DetO
     ret = cudaStreamSynchronize(m_CudaStream);    
     float scale = std::min(m_InputSize.width / (img.cols * 1.0), m_InputSize.height / (img.rows * 1.0));
     decode_outputs((float*)m_ArrayHostMemory[m_iOutputIndex], mThresh, DetObjs, scale, img.cols, img.rows, dw, dh);
-    runNms(DetObjs, 0.45);
+    runNms(DetObjs, in ? 0.3: 0.45, in);
 }
 
-void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh) 
+
+
+
+void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh, bool in)   //原本的
 {
     auto cmp_lammda = [](const BoxInfo& b1, const BoxInfo& b2){return b1.score < b2.score;};
     std::sort(objects.begin(), objects.end(), cmp_lammda);
@@ -192,7 +199,7 @@ void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh)
         }
         for(int j = i + 1; j < objects.size(); ++j)
         {
-            if(objects[i].label != objects[j].label) {
+            if( objects[i].label != objects[j].label) {
                 continue;
             }
             cv::Rect rect1 = cv::Rect{int(objects[i].x1), int(objects[i].y1), int(objects[i].x2 - objects[i].x1), int(objects[i].y2 - objects[i].y1)};
@@ -216,6 +223,8 @@ void SampleDetector::runNms(std::vector<BoxInfo>& objects, float thresh)
         }
     }
 }
+
+
 
 void SampleDetector::decode_outputs(float* prob, float thresh, std::vector<BoxInfo>& objects, float scale, const int img_w, const int img_h, int dw, int dh) 
 {    
